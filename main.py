@@ -4,7 +4,7 @@ import os
 def connection():
 # MongoDB connection details
     # connectionString = os.environ.get("MONGODB_URI")
-    connectionString = "mongodb+srv://Sahil10:6peImghLE5Kvdtff@cluster0.ts2b3po.mongodb.net/"
+    connectionString = ""
     database_name = "Nutrients"
     collection_name = "all"
     collection_name2 = "missing_ingredients"
