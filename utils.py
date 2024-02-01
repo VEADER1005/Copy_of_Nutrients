@@ -26,13 +26,17 @@ def query_ingredients_single(collection, ingredient, field):
 
     return non_friendly_ingredients, friendly_ingredients
 
-def query_ingredients_parallel(collection, ingredients, field):
-    with ThreadPoolExecutor(max_workers=8) as e:
-        futures = [e.submit(query_ingredients_single, collection, ingredient, field) for ingredient in ingredients]
-    results = [future.result() for future in futures]
-    non_friendly_ingredients = [item for sublist in results for item in sublist[0]]
-    friendly_ingredients = [item for sublist in results for item in sublist[1]]
+def query_ingredients_sequential(collection, ingredients, field):
+    non_friendly_ingredients = []
+    friendly_ingredients = []
+
+    for ingredient in ingredients:
+        non_friendly, friendly = query_ingredients_single(collection, ingredient, field)
+        non_friendly_ingredients.extend(non_friendly)
+        friendly_ingredients.extend(friendly)
+
     return non_friendly_ingredients, friendly_ingredients
+
 
 def perform_ocr(image_path, collection, collection2):
     # Open the image file

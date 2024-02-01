@@ -2,7 +2,7 @@ import os
 import tempfile
 from datetime import datetime
 from flask import Flask, render_template, request
-from utils import perform_ocr, query_ingredients_parallel
+from utils import perform_ocr, query_ingredients_sequential
 from main import connection
 
 def create_app():
@@ -37,7 +37,7 @@ def create_app():
 
                 # Use parallel processing for database queries for each selected field
                 for field in selected_fields:
-                    non_friendly_ingredients, friendly_ingredients = query_ingredients_parallel(collection, processed_list_tokens, field)
+                    non_friendly_ingredients, friendly_ingredients = query_ingredients_sequential(collection, processed_list_tokens, field)
                     if non_friendly_ingredients:
                         # Custom result string for non-friendly ingredients
                         if field in ['Vegan', 'Vegetarian', 'Kosher', 'Halal']:
